@@ -7,6 +7,7 @@ import { makeStyles } from "@mui/styles";
 import NoUsers from "./NoUsers";
 import UsersData from "./UsersData";
 import { Container } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   tabs: {
@@ -55,6 +56,9 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+  const {allUsers} = useSelector((s)=>s.user)
+ 
+
   const classes = useStyles();
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -94,7 +98,7 @@ export default function BasicTabs() {
             style={styles.tab[0]}
             label={
               <React.Fragment>
-                16
+            {(allUsers.filter((item)=> item.status === "in")).length}
                 <br />
                 <span style={{ marginTop: 4, textTransform: "uppercase" }}>
                   In
@@ -107,7 +111,7 @@ export default function BasicTabs() {
             style={styles.tab[1]}
             label={
               <React.Fragment>
-                0
+              {(allUsers.filter((item)=> item.status === "break")).length}
                 <br />
                 <span style={{ marginTop: 4, textTransform: "uppercase" }}>
                   break
@@ -120,7 +124,7 @@ export default function BasicTabs() {
             style={styles.tab[2]}
             label={
               <React.Fragment>
-                0
+               {(allUsers.filter((item)=> item.status === "out")).length}
                 <br />
                 <span style={{ marginTop: 4, textTransform: "uppercase" }}>
                   out
@@ -133,7 +137,7 @@ export default function BasicTabs() {
             style={styles.tab[3]}
             label={
               <React.Fragment>
-                22
+               {(allUsers.filter((item)=> item.status === "notin")).length}
                 <br />
                 <span style={{ marginTop: 4, textTransform: "uppercase" }}>
                   not in
@@ -145,16 +149,16 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <UsersData />
+        <UsersData condition ="in"  />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <NoUsers />
+      <UsersData condition ="break" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <NoUsers />
+      <UsersData condition ="out" />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <UsersData />
+        <UsersData condition ="notin" />
       </TabPanel>
     </Box>
   );

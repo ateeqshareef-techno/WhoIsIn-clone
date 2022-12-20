@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
     list: {
@@ -27,19 +28,17 @@ const useStyles = makeStyles({
   });
 
 
-const UsersData = () => {
+const UsersData = ({
+  condition
+}) => {
   const [users, setUsers] = useState([]);
+  const {allUsers} = useSelector((s)=>s.user)
   const classes = useStyles();
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get("https://jsonplaceholder.typicode.com/users");
-      setUsers(res.data);
-    } catch (error) {
-      console.log(error.message);
-    }
+  const fetchUsers = () => {
+    setUsers(allUsers.filter((item)=> item.status === condition))
   };
   useEffect(() => {
-    fetchUsers();
+    fetchUsers()
   }, []);
   return (
     <Box
@@ -78,32 +77,7 @@ const UsersData = () => {
           <Typography>{user.name}</Typography>
         </Box>
       ))}
-      {users.map((user, index) => (
-        <Box
-          key={index}
-          sx={{
-            display: "flex",
-            gap: 2,
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "100%",
-              backgroundColor: "#38BBD1",
-              color: "black",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography>{user.name.split("")[0]}</Typography>
-          </Box>
-          <Typography>{user.name}</Typography>
-        </Box>
-      ))}
+      
     </Box>
   );
 };

@@ -3,6 +3,7 @@ import Layout from "./layout/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./dashboard/pages/Dashboard";
 import Users from "./dashboard/pages/Users";
+import { colors } from "./theme/colors";
 
 let theme = createTheme({
   palette: {
@@ -22,7 +23,15 @@ let theme = createTheme({
     },
     tabColor:{
       main:"#ffffff",
+    },
+    buttonColors:{
+      blue:colors.buttonColors.blue,
+      orange:colors.buttonColors.orange,
+      red:colors.buttonColors.red,
+      white:colors.buttonColors.white
     }
+
+
     
   },
 });
